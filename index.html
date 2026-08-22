@@ -419,18 +419,21 @@
         <p>Welcome To...</p>
         <h2>Catholic PrayerWeb</h2>
         <h4>by: GMW1:9</h4>
-        <button onclick="scrollToGames()">START BROWSING</button>
+        <!-- FIXED: changed scrollToGames to scrollToPrayers -->
+        <button onclick="scrollToPrayers()">START BROWSING</button>
         <button onclick="openNewsModal()" class="outline-btn">WHAT'S NEW</button>
     </div>
 </section>
 
 <h2 class="section-title">Prayers</h2>
-<section class="prayers-grid" id="gamesGrid">
+<!-- FIXED: changed id="gamesGrid" to id="prayersGrid" -->
+<section class="prayers-grid" id="prayersGrid">
     <div class="prayer-card" data-name="The Angelus">
         <div class="prayer-info">
             <h3>The Angelus</h3>
             <p>A prayer based on scripture and the Annunciation</p> 
-            <button class="play-btn" onclick="openGame('https://GMW1-9.github.io/Angelus/')">PRAY</button>
+            <!-- FIXED: changed openGame to openPrayer -->
+            <button class="play-btn" onclick="openPrayer('https://GMW1-9.github.io/Angelus/')">PRAY</button>
         </div>
     </div>
 
@@ -438,7 +441,8 @@
         <div class="prayer-info">
             <h3>Our Father</h3>
             <p> The prayer Jesus taught his disciples! </p> 
-            <button class="play-btn" onclick="openGame('https://gmw1-9.github.io/Our-Father/')">PRAY</button>
+            <!-- FIXED: changed openGame to openPrayer -->
+            <button class="play-btn" onclick="openPrayer('https://gmw1-9.github.io/Our-Father/')">PRAY</button>
         </div>
     </div>
 </section>
@@ -458,10 +462,11 @@
 </section>
 
 <!-- Modals -->
-<div class="modal" id="gameModal">
+<!-- FIXED: changed gameModal/gameFrame to prayerModal/prayerFrame -->
+<div class="modal" id="prayerModal">
     <div class="modal-content">
-        <button class="close-btn" onclick="closeGame()">X</button>
-        <iframe id="gameFrame"></iframe>
+        <button class="close-btn" onclick="closePrayer()">X</button>
+        <iframe id="prayerFrame"></iframe>
     </div>
 </div>
 
@@ -532,20 +537,21 @@
 
 <!-- General UI Interactions -->
 <script>
-function scrollToGames(){
-    document.getElementById('gamesGrid').scrollIntoView({
+// FIXED: Updated function names to match the Prayer theme
+function scrollToPrayers(){
+    document.getElementById('prayersGrid').scrollIntoView({
         behavior:'smooth'
     });
 }
 
-function openGame(url){
-    document.getElementById('gameModal').style.display='flex';
-    document.getElementById('gameFrame').src=url;
+function openPrayer(url){
+    document.getElementById('prayerModal').style.display='flex';
+    document.getElementById('prayerFrame').src=url;
 }
 
-function closeGame(){
-    document.getElementById('gameModal').style.display='none';
-    document.getElementById('gameFrame').src='';
+function closePrayer(){
+    document.getElementById('prayerModal').style.display='none';
+    document.getElementById('prayerFrame').src='';
 }
 
 function openNewsModal(){
@@ -565,8 +571,9 @@ function closeAuthModal(){
     document.getElementById('authError').textContent = '';
 }
 
+// FIXED: The search wasn't working because it was targeting .game-card. It now targets .prayer-card
 const search = document.getElementById('search');
-const cards = document.querySelectorAll('.game-card');
+const cards = document.querySelectorAll('.prayer-card');
 
 search.addEventListener('input', () => {
     const value = search.value.toLowerCase();
