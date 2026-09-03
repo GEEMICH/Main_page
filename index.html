@@ -754,8 +754,10 @@ search.addEventListener('input', () => {
   } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
   // CHANGE THIS TO YOUR EXACT FIREBASE ACCOUNT EMAIL ADDRESS
-  const FOUNDER_EMAIL = "your-founder-email@gmail.com";
-
+  const FOUNDER_UID = "Sq3H6zWCUHZuvOd4Hw41HQsjTCk2";
+// Update the check inside listenToFounderChat():
+const isFounder = currentUser && currentUser.uid === FOUNDER_UID;
+    
   const firebaseConfig = {
     apiKey: "AIzaSyDwnxuI_EbCB2vTT2CzOhOwumuoqdZ5huM",
     authDomain: "gmw-1-9.firebaseapp.com",
