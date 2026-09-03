@@ -739,6 +739,7 @@ search.addEventListener('input', () => {
       getDocs, 
       addDoc, 
       deleteDoc, 
+      updateDoc,
       doc, 
       query,
       where,
@@ -998,12 +999,25 @@ search.addEventListener('input', () => {
               chatItem.className = 'chat-msg-item';
 
               const deleteBtn = `<button class="delete-btn" onclick="window.deleteChatMessage('${msgId}')">Delete</button>`;
+              const replyBtn = isFounder ? `<button class="delete-btn" style="right: 70px; background: #00e5ff; color: black;" onclick="window.replyToMessage('${msgId}')">Reply</button>` : '';
+
+              let replyHTML = '';
+              if (data.reply) {
+                  replyHTML = `
+                      <div style="margin-top: 8px; padding: 8px; background: #111827; border-left: 3px solid #10b981; border-radius: 6px;">
+                          <strong style="color: #10b981; font-size: 0.75rem;">Founder Reply:</strong>
+                          <p style="color: #e2e8f0; font-size: 0.8rem; margin-top: 2px;">${escapeHTML(data.reply)}</p>
+                      </div>
+                  `;
+              }
 
               chatItem.innerHTML = `
                   ${deleteBtn}
+                  ${replyBtn}
                   <h5>${escapeHTML(data.name || "Anonymous")} ${isFounder ? `<span style="color:#10b981;">(To Founder)</span>` : ''}</h5>
                   <p>${escapeHTML(data.text || "")}</p>
                   <span>${dateStr}</span>
+                  ${replyHTML}
               `;
               chatMessages.appendChild(chatItem);
           });
@@ -1067,6 +1081,22 @@ search.addEventListener('input', () => {
           }
       }
   });
+
+  window.replyToMessage = async function(id) {
+      const replyText = prompt("Type your reply to this user:");
+      if (replyText && replyText.trim() !== '') {
+          try {
+              await updateDoc(doc(db, "founder_chats", id), {
+                  reply: replyText.trim(),
+                  repliedAt: new Date().toISOString()
+              });
+              alert("Reply sent!");
+          } catch (error) {
+              console.error("Error sending reply: ", error);
+              alert("Failed to send reply.");
+          }
+      }
+  };
 
   window.deletePrayer = async function(id) {
       if (confirm("Are you sure you want to delete this prayer?")) {
