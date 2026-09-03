@@ -300,6 +300,26 @@
         background: #dc2626;
     }
 
+    /* Smaller styling targeted specifically to chat popup buttons */
+    .chat-msg-item .delete-btn {
+        top: 8px;
+        right: 8px;
+        padding: 2px 6px;
+        font-size: 0.62rem;
+        border-radius: 4px;
+        line-height: 1;
+    }
+
+    .chat-msg-item .chat-reply-btn {
+        right: 52px;
+        background: #00e5ff;
+        color: black;
+    }
+
+    .chat-msg-item .chat-reply-btn:hover {
+        background: #00b8cc;
+    }
+
     /* Floating Chat Widget & Bubble Styles */
     .chat-widget-btn {
         position: fixed;
@@ -968,13 +988,12 @@ search.addEventListener('input', () => {
       }
   }
 
-  // Real-time listener for Founder Private Chat (Quota-optimized)
+  // Real-time listener for Founder Private Chat
   function listenToFounderChat() {
       if (unsubscribeFounderChat) unsubscribeFounderChat();
 
       const isFounder = currentUser && currentUser.uid === FOUNDER_UID;
 
-      // Filter query at database level to save quota
       let q;
       if (isFounder) {
           q = query(collection(db, "founder_chats"));
@@ -999,7 +1018,7 @@ search.addEventListener('input', () => {
               chatItem.className = 'chat-msg-item';
 
               const deleteBtn = `<button class="delete-btn" onclick="window.deleteChatMessage('${msgId}')">Delete</button>`;
-              const replyBtn = isFounder ? `<button class="delete-btn" style="right: 70px; background: #00e5ff; color: black;" onclick="window.replyToMessage('${msgId}')">Reply</button>` : '';
+              const replyBtn = isFounder ? `<button class="delete-btn chat-reply-btn" onclick="window.replyToMessage('${msgId}')">Reply</button>` : '';
 
               let replyHTML = '';
               if (data.reply) {
